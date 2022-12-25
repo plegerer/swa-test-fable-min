@@ -4,10 +4,9 @@
       "userDetailsClaim": "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name",
       "registration": {
         "openIdIssuer": "https://login.microsoftonline.com/f1d2b6c9-463e-483e-a6a7-945869576733",
-        "clientIdSettingName": "8bd64b0b-6c89-4ce7-bd6d-a86876fc24e2",
-        "clientSecretSettingName": "XeB8Q~tFQ8sK2rIjmcl2.nXzWOQakcgw06Lbxc-v"
-      },
-
+        "clientIdSettingName": "AAD_CLIENT_ID",
+        "clientSecretSettingName": "AAD_CLIENT_SECRET"
+      }
     }
   }
 }
