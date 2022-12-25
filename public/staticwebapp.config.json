@@ -10,7 +10,8 @@
             "clientSecretSettingName": "AAD_CLIENT_SECRET"
           }
         }
-      },
+      }
+    },
 
 
     
