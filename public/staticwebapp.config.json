@@ -17,8 +17,8 @@
     
     "routes" : [
     {
-      "route": "/login",
-      "rewrite": "/"
+      "route": "/",
+      "allowedRoles": ["authenticated"]
     } 
     ]
  }
