@@ -16,7 +16,7 @@ type clientPrincipal ={
   identityProvider:string
   userId:string
   userDetails:string
-  userRoles: UserRole List
+  //userRoles: UserRole List
         }
 
 type State =
@@ -88,8 +88,8 @@ let render (state: State) (dispatch: Msg -> unit) =
     Html.h1 state.Count
 
     Html.a [
-        prop.text "Login"
-        prop.href ("/.auth/login/aad")
+        prop.text "Logout"
+        prop.href ("/.auth/logout")
         prop.style [ style.margin 5 ]
       ]
     
