@@ -2,10 +2,13 @@ module App
 
 open Elmish
 open Elmish.React
+
 open Feliz
 open Fetch
 open Thoth.Fetch
 open Thoth.Json
+
+
 
  
 
@@ -93,12 +96,13 @@ let update msg model =
               Fetching = false },
         Cmd.none
     | MessageError err ->
-        printfn "%O" err
+        let xx = sprintf "%O" err 
 
         { model with
               Fetching = false
-              Message = None },
+              Message = Some xx },
         Cmd.none
+
 
 let render (state: State) (dispatch: Msg -> unit) =
   Html.div [
