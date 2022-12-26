@@ -30,7 +30,7 @@ type ClientPrincipal ={
     IdentityProvider:string
     UserId:string
     UserDetails:string
-    //UserRoles: UserRole List
+    UserRoles: UserRole List
     }
 module ClientPrincipal =
     let decoder : Decoder<ClientPrincipal> =
@@ -38,7 +38,16 @@ module ClientPrincipal =
         { IdentityProvider = get.Required.Field "identityProvider" Decode.string
           UserId = get.Required.Field "userId" Decode.string
           UserDetails = get.Required.Field "userDetails" Decode.string
-          //UserRoles = get.Required.Field "userRoles" UserRole.decoderList
+          UserRoles = get.Required.Field "userRoles" UserRole.decoderList
+          }
+    )
+
+type ClaimResult = {clientPrincipal:ClientPrincipal}
+
+module ClaimResult = 
+    let decoder : Decoder<ClaimResult> =
+        Decode.object (fun get ->
+        { clientPrincipal = get.Required.Field "clientPrincipal" ClientPrincipal.decoder
           }
     )
 
@@ -71,10 +80,10 @@ let update msg model =
                     Fetch.get(
                         "/.auth/me",
                         headers = [ HttpRequestHeaders.Accept "application/json" ],
-                        decoder = ClientPrincipal.decoder
+                        decoder = ClaimResult.decoder
                     )
 
-                return message.UserDetails
+                return message.clientPrincipal.UserDetails
             }
 
         { model with Fetching = true }, Cmd.OfPromise.either getMessage () MessageReceived MessageError
