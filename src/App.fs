@@ -5,7 +5,19 @@ open Elmish.React
 open Feliz
 open Fetch
 open Thoth.Fetch
-open Feliz.Router
+
+
+type UserRole =
+  |Testrole of string
+  |Anonymous of string
+  |Authenticated of string
+
+type clientPrincipal ={
+  identityProvider:string
+  userId:string
+  userDetails:string
+  userRoles: UserRole List
+        }
 
 type State =
     { Count: int
@@ -33,12 +45,12 @@ let update msg model =
         let getMessage () =
             promise {
                 let! message =
-                    Fetch.get<unit, string> (
+                    Fetch.get<unit, clientPrincipal> (
                         "/.auth/me",
                         headers = [ HttpRequestHeaders.Accept "application/json" ]
                     )
 
-                return message
+                return message.userDetails
             }
 
         { model with Fetching = true }, Cmd.OfPromise.either getMessage () MessageReceived MessageError
