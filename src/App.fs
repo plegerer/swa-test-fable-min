@@ -5,6 +5,7 @@ open Elmish.React
 open Feliz
 open Fetch
 open Thoth.Fetch
+open Feliz.Router
 
 type State =
     { Count: int
@@ -73,6 +74,12 @@ let render (state: State) (dispatch: Msg -> unit) =
 
 
     Html.h1 state.Count
+
+    Html.a [
+        prop.text "Login"
+        prop.href ("/.auth/login/aad")
+        prop.style [ style.margin 5 ]
+      ]
     
   ]
 
