@@ -5,6 +5,7 @@ open Elmish.React
 open Feliz
 open Fetch
 open Thoth.Fetch
+open Fable.Core.JS
 
 
 type UserRole =
@@ -16,7 +17,7 @@ type clientPrincipal ={
   identityProvider:string
   userId:string
   userDetails:string
-  //userRoles: UserRole List
+  userRoles: UserRole List
         }
 
 type State =
@@ -45,7 +46,7 @@ let update msg model =
         let getMessage () =
             promise {
                 let! message =
-                    Fetch.get<unit, clientPrincipal> (
+                    Fetch.get<_,clientPrincipal>(
                         "/.auth/me",
                         headers = [ HttpRequestHeaders.Accept "application/json" ]
                     )
