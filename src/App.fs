@@ -30,7 +30,7 @@ type ClientPrincipal ={
     IdentityProvider:string
     UserId:string
     UserDetails:string
-    UserRoles: UserRole List
+    //UserRoles: UserRole List
     }
 module ClientPrincipal =
     let decoder : Decoder<ClientPrincipal> =
@@ -38,7 +38,7 @@ module ClientPrincipal =
         { IdentityProvider = get.Required.Field "identityProvider" Decode.string
           UserId = get.Required.Field "userId" Decode.string
           UserDetails = get.Required.Field "userDetails" Decode.string
-          UserRoles = get.Required.Field "userRoles" UserRole.decoderList
+          //UserRoles = get.Required.Field "userRoles" UserRole.decoderList
           }
     )
 
