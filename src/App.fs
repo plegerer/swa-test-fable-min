@@ -5,20 +5,42 @@ open Elmish.React
 open Feliz
 open Fetch
 open Thoth.Fetch
-open Fable.Core.JS
+open Thoth.Json
 
+ 
 
 type UserRole =
-  |Testrole of string
-  |Anonymous of string
-  |Authenticated of string
+    |Testrole
+    |Anonymous
+    |Authenticated
+module UserRole =
+    let decoder : Decoder<UserRole> =
+        Decode.string
+        |> Decode.andThen (function
+            | "testrole" -> Decode.succeed Testrole
+            | "anonymous" -> Decode.succeed Anonymous
+            | "authenticated" -> Decode.succeed Authenticated
+            | invalid ->
+                Decode.fail $"%s{invalid} is not valid"
+        )
+    let decoderList : Decoder<UserRole list> =
+        Decode.list decoder
 
-type clientPrincipal ={
-  identityProvider:string
-  userId:string
-  userDetails:string
-  userRoles: UserRole List
-        }
+type ClientPrincipal ={
+    IdentityProvider:string
+    UserId:string
+    UserDetails:string
+    UserRoles: UserRole List
+    }
+module ClientPrincipal =
+    let decoder : Decoder<ClientPrincipal> =
+        Decode.object (fun get ->
+        { IdentityProvider = get.Required.Field "identityProvider" Decode.string
+          UserId = get.Required.Field "userId" Decode.string
+          UserDetails = get.Required.Field "userDetails" Decode.string
+          UserRoles = get.Required.Field "userRoles" UserRole.decoderList
+          }
+    )
 
 type State =
     { Count: int
@@ -46,12 +68,13 @@ let update msg model =
         let getMessage () =
             promise {
                 let! message =
-                    Fetch.get<_,clientPrincipal>(
+                    Fetch.get(
                         "/.auth/me",
-                        headers = [ HttpRequestHeaders.Accept "application/json" ]
+                        headers = [ HttpRequestHeaders.Accept "application/json" ],
+                        decoder = ClientPrincipal.decoder
                     )
 
-                return message.userDetails
+                return message.UserDetails
             }
 
         { model with Fetching = true }, Cmd.OfPromise.either getMessage () MessageReceived MessageError
