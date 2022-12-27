@@ -10,7 +10,8 @@
             "clientSecretSettingName": "AAD_CLIENT_SECRET"
           },
           "login": {
-            "loginParameters": ["scope=openid profile email offline_access api://d9cb73d0-96d0-46d5-9ab0-a66e5a5e326f/user_impersonation"]
+            "loginParameters": ["scope=openid profile email offline_access",
+                                "resource=api://d9cb73d0-96d0-46d5-9ab0-a66e5a5e326f/user_impersonation"]
           }  
         }
       }
