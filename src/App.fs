@@ -81,7 +81,7 @@ let update msg model =
             promise {
                 let! message =
                     Fetch.get(
-                        "/.auth/me",
+                        "https://plegerer-adauthenticationbackend-test.azurewebsites.net/.auth/me",
                         headers = [ HttpRequestHeaders.Accept "application/json" ],
                         decoder = ClaimResult.decoder
                     )
